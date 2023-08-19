@@ -1,0 +1,7 @@
+rootProject.name = 'kafka-app'
+
+include ':producer'
+project(':producer').projectDir = new File('/Users/a1/IdeaProjects/kafka-app/producer')
+
+include ':consumer'
+project(':consumer').projectDir = new File('/Users/a1/IdeaProjects/kafka-app/consumer')
