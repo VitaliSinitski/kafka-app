@@ -11,11 +11,22 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class RestExceptionHandler {
 
+//    @ExceptionHandler(JsonProcessingException.class)
+//    public ResponseEntity<String> handleJsonProcessingException(JsonProcessingException ex) {
+//        log.info("RestExceptionHandler - handle - handleJsonProcessingException");
+
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .body("Error processing JSON.");
+//    }
+
     @ExceptionHandler(JsonProcessingException.class)
     public ResponseEntity<String> handleJsonProcessingException(JsonProcessingException ex) {
         log.info("RestExceptionHandler - handle - handleJsonProcessingException");
+
+        String errorMessage = "Error processing JSON: " + ex.getMessage();
+
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error processing JSON.");
+                .body(errorMessage);
     }
 
 }

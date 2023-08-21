@@ -5,15 +5,12 @@ spring:
   kafka:
     consumer:
       group-id: "default"
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: password
+      bootstrap-servers: localhost:9092  # адрес и порт брокера Kafka
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: kafka-db
 
 topic:
   name: t.food.order

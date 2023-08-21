@@ -46,3 +46,54 @@ services:
       KAFKA_BROKERCONNECT: "kafka:29092"
     depends_on:
       - "kafka"
+
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: "no"
+    networks:
+      - kafka-net
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongodb-data:/data/db
+
+  mongodb-compass:
+    image: mongoclient/mongoclient
+    container_name: mongodb-compass
+    restart: "no"
+    networks:
+      - kafka-net
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URL: mongodb://root:root@mongodb:27017
+      ROOT_URL: http://localhost
+      PORT: 3000
+
+#  mongo-shell:
+#    image: mongo:latest
+#    container_name: mongo-shell
+#    command: ["tail", "-f", "/dev/null"]  # Запустим "пустой" процесс, чтобы контейнер не завершался сразу
+#    depends_on:
+#      - mongodb
+#    stdin_open: true  # Открываем stdin для интерактивного ввода
+#    tty: true         # Запускаем контейнер в режиме TTY (терминала)
+
+  mongo-shell:
+    image: mongo:latest
+    container_name: mongo-shell
+#    command: [ "mongo" ]  # Запустить оболочку MongoDB при старте контейнера
+#    command: ["/usr/bin/mongo"]  # Используем полный путь к исполняемому файлу mongo
+    command: ["mongosh"]
+    depends_on:
+      - mongodb
+    stdin_open: true  # Открываем stdin для интерактивного ввода
+    tty: true         # Запускаем контейнер в режиме TTY (терминала)
+
+volumes:
+  mongodb-data:
